@@ -7,21 +7,26 @@ argB = 1
 bias = 1
 
 inputNum = 5  # Include bias term
-hiddenNum = 6 # Include bias term
+hiddenNum = 4 # Include bias term
 outputNum = 1
 momentum = 0.9
-learningRate = 0.1
+learningRate = 0.2
 
 function sigmoid(x::Float64)
-    return ((argB - argA) / (1 + exp(-x)) + argA)
+    result = (argB - argA) / (1 + exp(-x)) + argA
+    return result
+end
+
+
+function ReLu(x::Float64)
+    result = max(0.0, x)
+    return result
 end
 
 function train(input::Array{Float64,1}, expectedOutput::Float64)
     trainOutput = outputFor(input) # forward propagation
-    println(trainOutput)
     updateWeight(trainOutput, expectedOutput) # backpropagation
     errorRate = 0.5 * (trainOutput - expectedOutput)^2
-    # println(errorRate)
     return errorRate
 end
 
@@ -32,7 +37,7 @@ function outputFor(input::Array{Float64,1})
     
     inputNeuron[inputNum] = bias
     hiddenNeuron[hiddenNum] = bias
-    
+
     for i = 1:hiddenNum - 1
         for j = 1:inputNum
            hiddenNeuron[i] += inputWeights[j, i] * inputNeuron[j]
@@ -43,7 +48,7 @@ function outputFor(input::Array{Float64,1})
     for k = 1:hiddenNum
         outputNeuron[1] += hiddenWeights[k] * hiddenNeuron[k]
     end
-    
+    outputNeuron[1] = sigmoid(outputNeuron[1])
     return outputNeuron[1]
 end
 
@@ -87,26 +92,31 @@ epoch = 0
 errorRate = 0.0
 acceptError = 0.05
 
-df = DataFrame(CSV.File("data/trainingdata.csv"))
+df = DataFrame(CSV.File("data/germandata.csv"))
 head(df)
 
-inputATrain = df[1:16,1]  # Credit history
-inputBTrain = df[1:16,2]  # Other installment plans
-inputCTrain = df[1:16,3]  # Property
-inputDTrain = df[1:16,4]  # Telephone
-expectedOutput = df[1:16,5] # Expected training output
+inputATrain = df[1:600,1]  # Credit history
+inputBTrain = df[1:600,2]  # Other installment plans
+inputCTrain = df[1:600,3]  # Property
+inputDTrain = df[1:600,4]  # Telephone
+expectedOutput = df[1:600,5] # Expected training output
+
+epochVector = zeros(0)
+errorRateVector = zeros(0)
 
 while(epoch == 0 || errorRate > acceptError)
     errorRate = 0.0
-    for index in 1:16
+    for index in 1:600
         input = convert(Array{Float64,1}, [inputATrain[index], inputBTrain[index], inputCTrain[index], inputDTrain[index]])
-        # print(input)
         output = convert(Float64, expectedOutput[index])
-        # print(output)
         errorRate += train(input, output)
-        # println(errorRate)
         end
     print(epoch)
-    # print(errorRate)
+    append!(epochVector, convert(Float64,epoch))
+    append!(errorRateVector, errorRate)
     epoch += 1
 end
+
+plot(epochVector, errorRateVector, title = "Total Squared Error of Training Process", lw = 3)
+xlabel!("Epoch")
+ylabel!("Error")

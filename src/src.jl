@@ -117,6 +117,6 @@ while(epoch == 0 || errorRate > acceptError)
     epoch += 1
 end
 
-plot(epochVector, errorRateVector, title = "Total Squared Error of Training Process", lw = 3)
+plot(epochVector, errorRateVector, title = "Total Squared Error of Training Process", lw = 3, legend = false)
 xlabel!("Epoch")
 ylabel!("Error")

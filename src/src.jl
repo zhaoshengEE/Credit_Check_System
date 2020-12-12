@@ -17,7 +17,6 @@ function sigmoid(x::Float64)
     return result
 end
 
-
 function ReLu(x::Float64)
     result = max(0.0, x)
     return result
@@ -104,6 +103,8 @@ expectedOutput = df[1:600,5] # Expected training output
 epochVector = zeros(0)
 errorRateVector = zeros(0)
 
+###  Training Process  ###
+
 while(epoch == 0 || errorRate > acceptError)
     errorRate = 0.0
     for index in 1:600
@@ -111,12 +112,35 @@ while(epoch == 0 || errorRate > acceptError)
         output = convert(Float64, expectedOutput[index])
         errorRate += train(input, output)
         end
-    print(epoch)
+    println("Error at epoch $epoch is $errorRate")
     append!(epochVector, convert(Float64,epoch))
     append!(errorRateVector, errorRate)
     epoch += 1
 end
 
-plot(epochVector, errorRateVector, title = "Total Squared Error of Training Process", lw = 3, legend = false)
+plot(epochVector, errorRateVector, title = "Total Squared Error in Training Process", lw = 3, legend = false)
 xlabel!("Epoch")
 ylabel!("Error")
+
+###  Testing Process  ###
+inputATest = df[601:1000,1]  # Credit history
+inputBTest = df[601:1000,2]  # Other installment plans
+inputCTest = df[601:1000,3]  # Property
+inputDTest = df[601:1000,4]  # Telephone
+expectedOutputTest = df[601:1000,5] # Expected training output
+
+count = 0
+
+for index in 1:400
+    testInput = convert(Array{Float64,1}, [inputATest[index], inputBTest[index], inputCTest[index], inputDTest[index]])
+    testOutput = outputFor(testInput)
+    realOutput = convert(Float64, expectedOutputTest[index])
+
+    if testOutput > realOutput - 0.05 && testOutput < realOutput + 0.05
+        count += 1
+    end
+
+end
+
+accuracy = (count / 400) * 100
+println("The accuracy of this trained neural netowrk is $accuracy%")

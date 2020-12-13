@@ -19,7 +19,7 @@ function sigmoid(x::Float64)
 end
 
 ###  Activation Function (ReLU)  ###
-function ReLu(x::Float64)
+function ReLU(x::Float64)
     result = max(0.0, x)
     return result
 end

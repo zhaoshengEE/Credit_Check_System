@@ -10,7 +10,7 @@ Before diving into this project, I do some pre-possessing on the original datase
 I select some inputs and convert all the data into binary format. The table below illustrates the four selected inputs and the output of the neural network, along with their meanings in the binary format.
 
 |            |      0      |      1       |
-|:---------- | ----------- |-------------:|
+|:----------: | :-----------: |:------------:|
 | Credit history | Had delay in paying off credit | All credits are paid back |
 | Other installment plans | Not have other installment plans | Have other installment plans |
 | Property | Not have other properties | Have other properties |
@@ -54,3 +54,10 @@ function ReLu(x::Float64)
 end
 ```
 
+Then I start writing the training function, which consists of forward propagation function (`outputFor` function) and backpropagation function (`updateWeight` function).
+The `train` function is going to be called a bunch of times during the training process, it returns the error between the training output and the expected output.
+The error is calculated in the formula below:
+```math
+f(a) = \frac{1}{2}\int_{0}^{2\pi} (\alpha+R\cos(\theta))d\theta
+```
+$$x_{1,2} = {-b\pm\sqrt{b^2 - 4ac} \over 2a}.$$

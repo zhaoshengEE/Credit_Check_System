@@ -57,7 +57,4 @@ end
 Then I start writing the training function, which consists of forward propagation function (`outputFor` function) and backpropagation function (`updateWeight` function).
 The `train` function is going to be called a bunch of times during the training process, it returns the error between the training output and the expected output.
 The error is calculated in the formula below:
-```math
-f(a) = \frac{1}{2}\int_{0}^{2\pi} (\alpha+R\cos(\theta))d\theta
-$$x_{1,2} = {-b\pm\sqrt{b^2 - 4ac} \over 2a}.$$
-```
+![equation](https://latex.codecogs.com/png.latex?\error=\frac{1}{2}(y - C)^2)

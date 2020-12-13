@@ -59,5 +59,5 @@ The `train` function is going to be called a bunch of times during the training 
 The error is calculated in the formula below:
 ```math
 f(a) = \frac{1}{2}\int_{0}^{2\pi} (\alpha+R\cos(\theta))d\theta
-```
 $$x_{1,2} = {-b\pm\sqrt{b^2 - 4ac} \over 2a}.$$
+```

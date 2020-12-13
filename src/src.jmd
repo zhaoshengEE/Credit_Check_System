@@ -216,7 +216,7 @@ xlabel!("Epoch")
 ylabel!("Error")
 ```
 
-![total_squared_error.png](img/total_squared_error.png)
+![total_squared_error.PNG](img/total_squared_error.PNG)
 
 Here comes the validation process, I input the other 400 instances into the trained neural network one by one. If the value computed by the neural network is within the range of accepted error rate, then the corresponding test is considered as successful.
 
@@ -244,4 +244,4 @@ accuracy = (count / 400) * 100
 println("The accuracy of this trained neural netowrk is $accuracy%")
 ```
 
-![test_result.png](img/test_result.png)
+![test_result.PNG](img/test_result.PNG)
